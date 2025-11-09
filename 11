@@ -1,0 +1,129 @@
+
+Assignment 3: 
+
+*MongoDB Queries: Design and Develop MongoDB Queries using CRUD operations.* 
+ 
+*(Use CRUD operations, SAVE method, logical operators etc) 
+—--------------------------------------------------------------------------------------------------------------------- 
+ 
+studentdb> use studentdb; switched to db studentdb 
+ 
+studentdb> db.student.drop(); true 
+ 
+studentdb> db.createCollection("student"); 
+{ ok: 1 } 
+ 
+studentdb> db.student.insertMany([ 
+  { name: "Shruti", age: 19, city: "Pune" }, 
+  { name: "Harsh", age: 20, city: "Nagpur" }, 
+  { name: "Jash", age: 18, city: "Sangli" }, 
+  { name: "Sahil", age: 19, city: "Kolhapur" }, 
+  { name: "Suyash", age: 20, city: "Pune" } 
+]); 
+{ 
+  acknowledged: true,   insertedIds: { 
+    '0': ObjectId("..."), 
+    '1': ObjectId("..."), 
+    '2': ObjectId("..."), 
+    '3': ObjectId("..."), 
+    '4': ObjectId("...") 
+  } 
+} 
+ 
+studentdb> show collections; 
+[ 'student' ] 
+ 
+studentdb> db.student.find(); 
+[ 
+  { _id: ObjectId("..."), name: 'Shruti', age: 19, city: 'Pune' }, 
+  { _id: ObjectId("..."), name: 'Harsh', age: 20, city: 'Nagpur' }, 
+  { _id: ObjectId("..."), name: 'Jash', age: 18, city: 'Sangli' }, 
+  { _id: ObjectId("..."), name: 'Sahil', age: 19, city: 'Kolhapur' }, 
+  { _id: ObjectId("..."), name: 'Suyash', age: 20, city: 'Pune' } 
+] 
+ 
+studentdb> db.student.find().limit(3); 
+[ 
+  { _id: ObjectId("..."), name: 'Shruti', age: 19, city: 'Pune' }, 
+  { _id: ObjectId("..."), name: 'Harsh', age: 20, city: 'Nagpur' }, 
+  { _id: ObjectId("..."), name: 'Jash', age: 18, city: 'Sangli' } 
+] 
+ 
+studentdb> db.student.find({ age: { $gt: 19 } }, { name: 1, age: 1 }); 
+[ 
+  { _id: ObjectId("..."), name: 'Harsh', age: 20 }, 
+  { _id: ObjectId("..."), name: 'Suyash', age: 20 } 
+] 
+ 
+studentdb> db.student.findOne({ name: "Jash" }); 
+{ _id: ObjectId("..."), name: 'Jash', age: 18, city: 'Sangli' } 
+ 
+studentdb> db.student.updateOne( 
+  { name: "Sahil" }, 
+  { $set: { email: "sahil@gmail.com" } } 
+); 
+{ 
+  acknowledged: true,   insertedId: null,   matchedCount: 1,   modifiedCount: 1,   upsertedCount: 0 
+} 
+ 
+studentdb> db.student.findOne({ name: "Sahil" }); 
+{ _id: ObjectId("..."), name: 'Sahil', age: 19, city: 'Kolhapur', email: 'sahil@gmail.com' } 
+ 
+studentdb> db.student.updateMany( 
+  { age: { $gt: 19 } }, 
+  { $set: { city: "Mumbai" } } 
+); 
+{ 
+  acknowledged: true,   insertedId: null,   matchedCount: 2,   modifiedCount: 2,   upsertedCount: 0 
+} 
+ 
+studentdb> db.student.find(); 
+[ 
+  { _id: ObjectId("..."), name: 'Shruti', age: 19, city: 'Pune' }, 
+  { _id: ObjectId("..."), name: 'Harsh', age: 20, city: 'Mumbai' }, 
+  { _id: ObjectId("..."), name: 'Jash', age: 18, city: 'Sangli' }, 
+  { _id: ObjectId("..."), name: 'Sahil', age: 19, city: 'Kolhapur', email: 'sahil@gmail.com' },   { _id: ObjectId("..."), name: 'Suyash', age: 20, city: 'Mumbai' } 
+] 
+ 
+studentdb> db.student.deleteOne({ age: 19 }); 
+{ acknowledged: true, deletedCount: 1 } 
+ 
+studentdb> db.student.find(); 
+[ 
+  { _id: ObjectId("..."), name: 'Harsh', age: 20, city: 'Mumbai' }, 
+  { _id: ObjectId("..."), name: 'Jash', age: 18, city: 'Sangli' }, 
+  { _id: ObjectId("..."), name: 'Sahil', age: 19, city: 'Kolhapur', email: 'sahil@gmail.com' },   { _id: ObjectId("..."), name: 'Suyash', age: 20, city: 'Mumbai' } 
+] 
+ 
+studentdb> db.student.deleteMany({ age: 20 }); 
+{ acknowledged: true, deletedCount: 2 } 
+ 
+studentdb> db.student.find(); 
+[ 
+  { _id: ObjectId("..."), name: 'Jash', age: 18, city: 'Sangli' }, 
+  { _id: ObjectId("..."), name: 'Sahil', age: 19, city: 'Kolhapur', email: 'sahil@gmail.com' } 
+] 
+ 
+studentdb> db.student.find({ age: { $lte: 18 } }); 
+[ 
+  { _id: ObjectId("..."), name: 'Jash', age: 18, city: 'Sangli' } 
+] 
+ 
+studentdb> db.student.find({ age: { $gte: 19 } }); 
+[ 
+  { _id: ObjectId("..."), name: 'Sahil', age: 19, city: 'Kolhapur', email: 'sahil@gmail.com' } 
+] 
+ 
+studentdb> db.student.find({ age: { $in: [18, 19, 20] } }); 
+[ 
+  { _id: ObjectId("..."), name: 'Jash', age: 18, city: 'Sangli' }, 
+  { _id: ObjectId("..."), name: 'Sahil', age: 19, city: 'Kolhapur', email: 'sahil@gmail.com' } 
+] 
+ 
+studentdb> db.student.find({ age: { $nin: [19, 20] } }); 
+[ 
+  { _id: ObjectId("..."), name: 'Jash', age: 18, city: 'Sangli' } 
+] 
+ 
+ 
+ 
