@@ -1,0 +1,56 @@
+
+CREATE DATABASE ThirdYear;
+USE ThirdYear;
+CREATE TABLE departments (
+    id INT PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE employees (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL,
+    dept_id INT,
+    salary DECIMAL(10,2) DEFAULT 0,
+    CONSTRAINT fk_dept FOREIGN KEY (dept_id) REFERENCES departments(id)
+);
+INSERT INTO departments (id, dept_name) VALUES
+(10, 'HR'),
+(20, 'Engineering'),
+(30, 'Sales'),
+(40, 'Marketing'),
+(50, 'Support');
+
+INSERT INTO employees (name, dept_id, salary) VALUES
+('Avanti', 10, 60000),
+('Mrunali', 20, 65000),
+('Rahul', 10, 0),
+('Pranjali', 30, 0),
+('Sakshi', 40, 0);
+UPDATE employees SET salary = 70000 WHERE name = 'Avanti';
+UPDATE employees SET salary = 55000 WHERE name = 'Mrunali';
+DELETE FROM employees WHERE name = 'Pranjali';
+CREATE VIEW employee_department AS
+SELECT e.id, e.name, e.salary, d.dept_name
+FROM employees e
+INNER JOIN departments d ON e.dept_id = d.id;
+SELECT * FROM employee_department;
+
+SELECT name, salary FROM employees WHERE salary > 50000;
+SELECT d.dept_name, AVG(e.salary) AS avg_salary
+FROM employees e
+JOIN departments d ON e.dept_id = d.id
+GROUP BY d.dept_name;
+SELECT d.dept_name, COUNT(e.id) AS total_employees
+FROM employees e
+JOIN departments d ON e.dept_id = d.id
+GROUP BY d.dept_name;
+CREATE INDEX idx_dept_id ON employees(dept_id);
+INSERT INTO employees (name, dept_id, salary)
+VALUES ('Vaibhavi', 50, 50000);
+ALTER TABLE employees
+ADD CONSTRAINT chk_salary CHECK (salary >= 0);
+EXPLAIN SELECT * FROM employees WHERE dept_id = 10;
+LOCK TABLES employees WRITE;
+UNLOCK TABLES;
+
+
