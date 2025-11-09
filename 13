@@ -1,0 +1,224 @@
+DATABASE MANAGEMENT SYSTEM PRACTICAL ASSIGNMENT 5
+PL/SQL CURSOR
+
+Write a PL/SQL block to calculate the grade of minimum 10 students using database cursor.
+ubuntu@Prajaktaaa:~$ sudo mysql
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| data               |
+| demo               |
+| department         |
+| employee           |
+| information        |
+| information_schema |
+| mysql              |
+| performance_schema |
+| practical          |
+| price              |
+| sample             |
+| student            |
+| sys                |
++--------------------+
+13 rows in set (0.01 sec)
+
+mysql> use student database;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> CREATE TABLE student (
+    ->     roll_no INT PRIMARY KEY,
+    ->     name VARCHAR(50),
+    ->     marks1 INT,
+rks2 INT,
+    ma    ->     marks2 INT,
+    ->     marks3 INT
+    -> );
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> INSERT INTO student VALUES (1, 'Arjun',   85, 78, 92);
+TO student VALUES (2, 'Komal',   70, 65, 72);
+INSERT INTO student VALUES (3, 'Sahil',   55, 60, 58);
+INSERT INTO student VALUES (4, 'Divya',   40, 45, 48);
+INSERT INTO student VALUES (5, 'Manish',  90, 88, 95);
+INSERT INTO student VALUES (6, 'Ritika',  62, 68, 64);
+INSERT INTO student VALUES (7, 'Aditya',  75, 80, 70);
+INSERT INTO student VALUES (8, 'Kavya',   50, 55, 52);
+INSERT INTO student VALUES (9, 'Yash',    30, 35, 28);
+INSERT INTO student VALUES (10,'Simran',  82, 79, 85);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> INSERT INTO student VALUES (2, 'Komal',   70, 65, 72);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO student VALUES (3, 'Sahil',   55, 60, 58);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO student VALUES (4, 'Divya',   40, 45, 48);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> INSERT INTO student VALUES (5, 'Manish',  90, 88, 95);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO student VALUES (6, 'Ritika',  62, 68, 64);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO student VALUES (7, 'Aditya',  75, 80, 70);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO student VALUES (8, 'Kavya',   50, 55, 52);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO student VALUES (9, 'Yash',    30, 35, 28);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO student VALUES (10,'Simran',  82, 79, 85);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM student;
++---------+--------+--------+--------+--------+
+| roll_no | name   | marks1 | marks2 | marks3 |
++---------+--------+--------+--------+--------+
+|       1 | Arjun  |     85 |     78 |     92 |
+|       2 | Komal  |     70 |     65 |     72 |
+|       3 | Sahil  |     55 |     60 |     58 |
+|       4 | Divya  |     40 |     45 |     48 |
+|       5 | Manish |     90 |     88 |     95 |
+|       6 | Ritika |     62 |     68 |     64 |
+|       7 | Aditya |     75 |     80 |     70 |
+|       8 | Kavya  |     50 |     55 |     52 |
+|       9 | Yash   |     30 |     35 |     28 |
+|      10 | Simran |     82 |     79 |     85 |
++---------+--------+--------+--------+--------+
+10 rows in set (0.00 sec)
+
+mysql> DELIMITER $$
+mysql>
+mysql> CREATE PROCEDURE calculate_grades()
+    -> BEGIN
+    ->     DECLARE done INT DEFAULT 0;
+    ->     DECLARE v_roll INT;
+    ->     DECLARE v_name VARCHAR(50);
+    DECLARE v_m1    ->     DECLARE v_m1 INT;
+    ->     DECLARE v_m2 INT;
+    ->     DECLARE v_m3 INT;
+    ->     DECLARE v_total INT;
+    ->     DECLARE v_avg DECIMAL(5,2);
+    ->     DECLARE v_grade CHAR(2);
+    ->
+    ->     -- Cursor declaration
+    ->     DECLARE stu_cur CURSOR FOR
+    ->         SELECT roll_no, name, marks1, marks2, marks3 FROM student;
+    ->
+    ->     -- Handler for end of data
+    ->     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+    ->
+    ->     OPEN stu_cur;
+    ->
+    ->     read_loop: LOOP
+ v_roll, v_name,    ->         FETCH stu_cur INTO v_roll, v_name, v_m1, v_m2, v_m3;
+        LEAVE re    ->         IF done = 1 THEN
+ad_loop;
+           ->             LEAVE read_loop;
+    ->         END IF;
+    ->
+    ->         SET v_total = v_m1 + v_m2 + v_m3;
+    ->         SET v_avg   = v_total / 3;
+    ->
+    ->         IF v_avg >= 75 THEN
+    ->             SET v_grade = 'A';
+    ->         ELSEIF v_avg >= 60 THEN
+    ->             SET v_grade = 'B';
+    ->         ELSEIF v_avg >= 50 THEN
+    ->             SET v_grade = 'C';
+    ->         ELSE
+    ->             SET v_grade = 'F';
+      -- Show re    ->         END IF;
+    ->
+    ->         -- Show result
+    ->         SELECT CONCAT('Roll No: ', v_roll,
+    ->                       '  Name: ', v_name,
+    ->                                       '  Avg: ', v_avg,
+    ->                       '  Grade: ', v_grade) AS Result;
+    ->     END LOOP;
+    ->
+    ->     CLOSE stu_cur;
+    -> END$$
+Query OK, 0 rows affected (0.03 sec)
+
+mysql>
+mysql> DELIMITER ;
+mysql> CALL calculate_grades();
++-----------------------------------------------+
+| Result                                        |
++-----------------------------------------------+
+| Roll No: 1  Name: Arjun  Avg: 85.00  Grade: A |
++-----------------------------------------------+
+1 row in set (0.00 sec)
+
++-----------------------------------------------+
+| Result                                        |
++-----------------------------------------------+
+| Roll No: 2  Name: Komal  Avg: 69.00  Grade: B |
++-----------------------------------------------+
+1 row in set (0.00 sec)
+
++-----------------------------------------------+
+| Result                                        |
++-----------------------------------------------+
+| Roll No: 3  Name: Sahil  Avg: 57.67  Grade: C |
++-----------------------------------------------+
+1 row in set (0.00 sec)
+
++-----------------------------------------------+
+| Result                                        |
++-----------------------------------------------+
+| Roll No: 4  Name: Divya  Avg: 44.33  Grade: F |
++-----------------------------------------------+
+1 row in set (0.00 sec)
+
++------------------------------------------------+
+| Result                                         |
++------------------------------------------------+
+| Roll No: 5  Name: Manish  Avg: 91.00  Grade: A |
++------------------------------------------------+
+1 row in set (0.01 sec)
+
++------------------------------------------------+
+| Result                                         |
++------------------------------------------------+
+| Roll No: 6  Name: Ritika  Avg: 64.67  Grade: B |
++------------------------------------------------+
+1 row in set (0.01 sec)
+
++------------------------------------------------+
+| Result                                         |
++------------------------------------------------+
+| Roll No: 7  Name: Aditya  Avg: 75.00  Grade: A |
++------------------------------------------------+
+1 row in set (0.01 sec)
+
++-----------------------------------------------+
+| Result                                        |
++-----------------------------------------------+
+| Roll No: 8  Name: Kavya  Avg: 52.33  Grade: C |
++-----------------------------------------------+
+1 row in set (0.01 sec)
+
++----------------------------------------------+
+| Result                                       |
++----------------------------------------------+
+| Roll No: 9  Name: Yash  Avg: 31.00  Grade: F |
++----------------------------------------------+
+1 row in set (0.01 sec)
+
++-------------------------------------------------+
+| Result                                          |
++-------------------------------------------------+
+| Roll No: 10  Name: Simran  Avg: 82.00  Grade: A |
++-------------------------------------------------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
