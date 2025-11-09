@@ -1,0 +1,117 @@
+
+import mysql.connector
+def create_connection():
+    # The opening parenthesis must follow immediately after 'connect'
+    return mysql.connector.connect(
+        host="localhost",      
+        user="root",
+        password="ubuntu",  
+        database="employee_db"
+    )
+# Function to add a new employee
+def add_employee(first_name, last_name, job_title, department, salary):
+    conn = create_connection()
+    cursor = conn.cursor()   
+
+    query = """INSERT INTO employees (first_name, last_name, job_title, department, salary) VALUES (%s, %s, %s, %s, %s)"""
+    cursor.execute(query, (first_name, last_name, job_title, department, salary))
+    conn.commit() 
+    cursor.close()
+    conn.close()
+    print(f"Employee {first_name} {last_name} added successfully!")
+
+# Function to update employee details
+def update_employee(employee_id, first_name, last_name, job_title, department, salary):
+    conn = create_connection()
+    cursor = conn.cursor()
+   query = """UPDATE employees SET first_name = %s, last_name = %s, job_title = %s, department = %s, salary = %s WHERE id = %s"""
+    cursor.execute(query, (first_name, last_name, job_title, department, salary, employee_id))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    print(f"Employee ID {employee_id} updated successfully!")
+
+# Function to fetch employee details by ID
+def get_employee_by_id(employee_id):
+    conn = create_connection()
+    cursor = conn.cursor()
+    query = """SELECT * FROM employees WHERE id = %s"""
+    cursor.execute(query, (employee_id,))
+    result = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    if result:
+        print(f"Employee ID: {result[0]}")
+        print(f"Name: {result[1]} {result[2]}")
+        print(f"Job Title: {result[3]}")
+        print(f"Department: {result[4]}")
+        print(f"Salary: ${result[5]:,.2f}")
+    else:
+        print(f"No employee found with ID {employee_id}")
+
+# Function to list all employees
+def list_all_employees():
+    conn = create_connection()
+    cursor = conn.cursor()
+    query = "SELECT * FROM employees"
+    cursor.execute(query)
+    results = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    if results:
+        for row in results:
+            print(f"ID: {row[0]}, Name: {row[1]} {row[2]}, Job Title: {row[3]}, Department: {row[4]}, Salary: ${row[5]:,.2f}")
+    else:
+        print("No employees found.")
+
+# Function to delete an employee
+def delete_employee(employee_id):
+    conn = create_connection()
+    cursor = conn.cursor()
+    query = "DELETE FROM employees WHERE id = %s"
+    cursor.execute(query, (employee_id,))
+    conn.commit()
+    cursor.close()
+    conn.close()
+    print(f"Employee ID {employee_id} deleted successfully!")
+
+# Example of how to use the functions
+if __name__ == "__main__":
+    while True:
+        print("\nEmployee Management System")
+        print("1. Add Employee")
+        print("2. Update Employee")
+        print("3. View Employee")
+        print("4. List All Employees")
+        print("5. Delete Employee")
+        print("6. Exit")
+       choice = input("Choose an option: ")
+        if choice == "1":
+            first_name = input("First Name: ")
+            last_name = input("Last Name: ")
+            job_title = input("Job Title: ")
+            department = input("Department: ")
+            salary = float(input("Salary: "))
+            add_employee(first_name, last_name, job_title, department, salary)
+        elif choice == "2":
+            employee_id = int(input("Employee ID: "))
+            first_name = input("First Name: ")
+            last_name = input("Last Name: ")
+            job_title = input("Job Title: ")
+            department = input("Department: ")
+            salary = float(input("Salary: "))
+            update_employee(employee_id, first_name, last_name, job_title, department, salary)
+        elif choice == "3":
+            employee_id = int(input("Employee ID: "))
+            get_employee_by_id(employee_id)
+        elif choice == "4":
+            list_all_employees()
+        elif choice == "5":
+            employee_id = int(input("Employee ID: "))
+            delete_employee(employee_id)
+        elif choice == "6":
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice, please try again.")
+
