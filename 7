@@ -1,0 +1,102 @@
+
+mysql> show tables;
++-------------------+
+| Tables_in_stud_db |
++-------------------+
+| Borrower          |
+| Fine              |
+| N_Roll_Call       |
+| O_Roll_Call       |
+| Result            |
+| Stud_Marks        |
+| marks_info        |
+| stud_info         |
++-------------------+
+8 rows in set (0.00 sec)
+
+mysql> show procedure;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select * from Borrower;
++---------+-------+---------------+--------------+--------+
+| Roll_no | Name  | Date_of_Issue | Name_of_Book | Status |
++---------+-------+---------------+--------------+--------+
+|       1 | Ravi  | 2024-10-10    | DBMS         | I      |
+|       2 | Sneha | 2024-09-01    | OS           | I      |
+|       3 | Amit  | 2024-10-15    | CN           | I      |
++---------+-------+---------------+--------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from Fine;
+Empty set (0.01 sec)
+
+mysql> DELIMITER //
+mysql> CREATE PROCEDURE calc_fine(
+    ->     IN p_roll INT,
+    ->     IN p_book VARCHAR(50)
+    -> )
+    -> BEGIN
+    ->     DECLARE v_date_of_issue DATE;
+    ->     DECLARE v_days INT;
+    ->     DECLARE v_fine INT DEFAULT 0;
+    ->     DECLARE exit handler FOR SQLEXCEPTION
+    ->     BEGIN
+    ->         SELECT 'Error: Invalid input or missing data' AS message;
+    ->     END;
+    -> 
+    ->     -- Fetch the issue date
+    ->     SELECT Date_of_Issue INTO v_date_of_issue
+    ->     FROM Borrower
+    ->     WHERE Roll_no = p_roll AND Name_of_Book = p_book;
+    -> 
+    ->     -- Calculate number of days since issue
+    ->     SET v_days = DATEDIFF(CURDATE(), v_date_of_issue);
+    -> 
+    ->     -- Calculate fine
+    ->     IF v_days BETWEEN 15 AND 30 THEN
+    ->         SET v_fine = (v_days - 14) * 5;
+    ->     ELSEIF v_days > 30 THEN
+    ->         SET v_fine = (v_days - 30) * 50 + (16 * 5);
+    ->     ELSE
+    ->         SET v_fine = 0;
+    ->     END IF;
+    -> 
+    ->     -- Update book status to 'R'
+    ->     UPDATE Borrower
+    ->     SET Status = 'R'
+    ->     WHERE Roll_no = p_roll AND Name_of_Book = p_book;
+    -> 
+    ->     -- Insert fine record if applicable
+    ->     IF v_fine > 0 THEN
+    ->         INSERT INTO Fine (Roll_no, Date_F, Amt)
+    ->         VALUES (p_roll, CURDATE(), v_fine);
+    ->         SELECT CONCAT('Fine applicable: Rs ', v_fine) AS message;
+    ->     ELSE
+    ->         SELECT 'No fine applicable' AS message;
+    ->     END IF;
+    -> 
+    -> END //
+Query OK, 0 rows affected (0.19 sec)
+
+mysql> DELIMITER ;
+mysql> CALL calc_fine(1, 'DBMS');
++---------------------------+
+| message                   |
++---------------------------+
+| Fine applicable: Rs 18030 |
++---------------------------+
+1 row in set (0.17 sec)
+
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> SELECT * FROM Fine;
++---------+------------+-------+
+| Roll_no | Date_F     | Amt   |
++---------+------------+-------+
+|       1 | 2025-11-03 | 18030 |
++---------+------------+-------+
+1 row in set (0.00 sec)
+
+
+
+
+
