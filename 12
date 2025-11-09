@@ -1,0 +1,89 @@
+---------------------------------------------------------------------------------------------------
+Assignment No: 4
+----------------------------------------------------------------------------------------------------------------------------
+4. Unnamed PL/SQLcode block: Use of Control structure and Exception handling is mandatory.
+Suggested Problem statement:
+Consider Tables:
+1. Borrower (Roll_no, Name, Date_of_Issue, Name_of_Book, Status)
+2. Fine (Roll_no, Date, Amt) •
+Accept Roll_no and Name_of_Book from user. • 
+Check the number of days (from Date_of_Issue). If days are between 15 to 30 then fine amount will be Rs 5per day. If no. of days>30, per day fine will be Rs 50 per day and for days less than 30, Rs. 5 per day. After submitting the book, status will change from I to R. If condition of fine is true, then details will be stored into fine table.
+OR
+Also handles the exception by named exception handler or user define exception handler.MongoDB – Aggregation and Indexing: Design and Develop MongoDB Queries using aggregation and indexing with suitable example using MongoDB.MongoDB – Map-reduce operations: Implement Map-reduce operation with suitable example using MongoDB.
+----------------------------------------------------------------------------------------------------------------------------
+mysql> CREATE TABLE Borrower (
+    ->     Roll_no INT,
+    ->     Name VARCHAR(100),
+    ->     Date_of_Issue DATE,
+    ->     Name_of_Book VARCHAR(100),
+    ->     Status CHAR(1)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> 
+mysql> CREATE TABLE Fine (
+    ->     Roll_no INT,
+    ->     Date DATE,
+    ->     Amt DECIMAL(10,2)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> INSERT INTO Borrower VALUES (1, 'Shruti', '2025-08-01', 'DBMS Book', 'I');
+Query OK, 1 row affected (0.01 sec)
+mysql> DELIMITER //
+mysql> 
+mysql> CREATE PROCEDURE ReturnBook(IN p_rollno INT, IN p_book VARCHAR(100))
+    -> BEGIN
+    ->     DECLARE v_date_issue DATE;
+    ->     DECLARE v_days INT;
+    ->     DECLARE v_fine INT DEFAULT 0;
+    -> 
+    ->     -- Step 1: Get Date_of_Issue
+    ->     SELECT Date_of_Issue INTO v_date_issue
+    ->     FROM Borrower
+    ->     WHERE Roll_no = p_rollno
+    ->       AND Name_of_Book = p_book
+    ->       AND Status = 'I'
+    ->     LIMIT 1;
+    -> 
+    ->     -- Step 2: Calculate number of days
+    ->     SET v_days = DATEDIFF(CURDATE(), v_date_issue);
+    -> 
+    ->     -- Step 3: Apply fine rules
+    ->     IF v_days <= 15 THEN
+    ->         SET v_fine = 0;
+    ->     ELSEIF v_days BETWEEN 16 AND 30 THEN
+    ->         SET v_fine = v_days * 5;
+    ->     ELSE
+    ->         SET v_fine = v_days * 50;
+    ->     END IF;
+    -> 
+    ->     -- Step 4: Update status to 'R'
+    ->     UPDATE Borrower
+    ->     SET Status = 'R'
+    ->     WHERE Roll_no = p_rollno
+    ->       AND Name_of_Book = p_book;
+    -> 
+    ->     -- Step 5: Insert into Fine table if fine > 0
+    ->     IF v_fine > 0 THEN
+    ->         INSERT INTO Fine (Roll_no, Date, Amt)
+    ->         VALUES (p_rollno, CURDATE(), v_fine);
+    ->     END IF;
+    -> 
+    ->     -- Step 6: Show output
+    ->     SELECT CONCAT('Book returned. Days: ', v_days, ', Fine: ', v_fine) AS message;
+    -> 
+    -> END //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> 
+mysql> DELIMITER ;
+mysql> CALL ReturnBook(1, 'DBMS Book');
++-------------------------------------+
+| message                             |
++-------------------------------------+
+| Book returned. Days: 39, Fine: 1950 |
++-------------------------------------+
+1 row in set (0.02 sec)
+
+Query OK, 0 rows affected (0.02 sec)
