@@ -1,0 +1,79 @@
+
+CREATE DATABASE company_db;
+USE company_db;
+CREATE TABLE departments (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    dept_name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE employees (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50),
+    salary DECIMAL(10,2),
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES departments(id)
+);
+
+INSERT INTO departments (dept_name)
+VALUES 
+('HR'),
+('Engineering'),
+('Marketing'),
+('Sales'),
+('Support');
+
+INSERT INTO employees (name, salary, dept_id)
+VALUES
+('Avanti', 60000, 1),
+('Mrunali', 65000, 2),
+('Rahul', 55000, 1),
+('Sakshi', 50000, 3),
+('Neha', NULL, NULL);
+SELECT e.id, e.name, e.salary, d.dept_name
+FROM employees e
+INNER JOIN departments d ON e.dept_id = d.id;
+SELECT e.id, e.name, e.salary, d.dept_name
+FROM employees e
+LEFT JOIN departments d ON e.dept_id = d.id;
+SELECT e.id, e.name, e.salary, d.dept_name
+FROM employees e
+RIGHT JOIN departments d ON e.dept_id = d.id;
+SELECT e.id, e.name, e.salary, d.dept_name
+FROM employees e
+LEFT JOIN departments d ON e.dept_id = d.id
+UNION
+SELECT e.id, e.name, e.salary, d.dept_name
+FROM employees e
+RIGHT JOIN departments d ON e.dept_id = d.id;
+
+SELECT e.name, d.dept_name
+FROM employees e
+CROSS JOIN departments d;
+SELECT *
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees);
+SELECT e1.*
+FROM employees e1
+WHERE salary = (
+    SELECT MAX(e2.salary)
+    FROM employees e2
+    WHERE e2.dept_id = e1.dept_id
+);
+SELECT DISTINCT d.dept_name
+FROM departments d
+WHERE EXISTS (
+    SELECT 1
+    FROM employees e
+    WHERE e.dept_id = d.id
+    AND e.salary > 60000
+);
+SELECT e.name, e.salary,
+       (SELECT AVG(e2.salary)
+        FROM employees e2
+        WHERE e2.dept_id = e.dept_id) AS avg_dept_salary
+FROM employees e;
+CREATE VIEW emp_summary AS
+SELECT e.name, e.salary, d.dept_name
+FROM employees e
+LEFT JOIN departments d ON e.dept_id = d.id;
+SELECT * FROM emp_summary;
