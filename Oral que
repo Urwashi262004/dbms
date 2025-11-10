@@ -1,0 +1,668 @@
+
+🧩 Problem Statement 1: SQL DDL – Tables, Views, Index, Sequence, Constraints
+
+Viva Questions & Answers
+
+1. Q: What is DDL in SQL?
+A: DDL stands for Data Definition Language; it is used to define and manage database structure (CREATE, ALTER, DROP).
+
+
+2. Q: What is the difference between DDL and DML?
+A: DDL changes database structure; DML manipulates data (INSERT, UPDATE, DELETE).
+
+
+3. Q: What is a view?
+A: A view is a virtual table based on the result of an SQL query.
+
+
+4. Q: Why do we use an index?
+A: To speed up data retrieval from tables.
+
+
+5. Q: What is a sequence?
+A: A database object that generates a sequence of unique numbers, often used for primary keys.
+
+
+6. Q: What is a synonym in SQL?
+A: An alias for another database object (like a table or view).
+
+
+7. Q: Name some constraints used in SQL.
+A: PRIMARY KEY, FOREIGN KEY, UNIQUE, CHECK, NOT NULL.
+
+
+8. Q: What is the use of FOREIGN KEY constraint?
+A: It ensures referential integrity between two tables.
+
+
+9. Q: Can we create multiple indexes on a table?
+A: Yes, but too many indexes can slow down INSERT/UPDATE operations.
+
+
+10. Q: How to delete a view?
+A: DROP VIEW view_name;
+
+
+
+
+---
+
+🧩 Problem Statement 2: SQL DML – Joins, Subqueries, Views
+
+Viva Questions & Answers
+
+1. Q: What is DML in SQL?
+A: DML stands for Data Manipulation Language and includes INSERT, UPDATE, DELETE, SELECT.
+
+
+2. Q: What are the types of joins?
+A: INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL JOIN, CROSS JOIN.
+
+
+3. Q: What is an INNER JOIN?
+A: It returns only matching rows from both tables.
+
+
+4. Q: What is a subquery?
+A: A query inside another query.
+
+
+5. Q: Can a subquery return multiple rows?
+A: Yes, if it’s used with IN, ANY, or ALL.
+
+
+6. Q: What is a self-join?
+A: Joining a table to itself.
+
+
+7. Q: What is a cross join?
+A: It returns the Cartesian product of both tables.
+
+
+8. Q: What is the purpose of GROUP BY?
+A: It groups rows sharing a property so aggregate functions can be applied.
+
+
+9. Q: What is the difference between HAVING and WHERE?
+A: WHERE filters rows before grouping; HAVING filters after grouping.
+
+
+10. Q: Can we use joins and subqueries together?
+A: Yes, they can be combined in a single query.
+
+
+
+
+---
+
+🧩 Problem Statement 3: MongoDB CRUD Operations
+
+Viva Questions & Answers
+
+1. Q: What does CRUD stand for?
+A: Create, Read, Update, Delete.
+
+
+2. Q: Which method is used to insert a document?
+A: insertOne() or insertMany().
+
+
+3. Q: How to update a document in MongoDB?
+A: Using updateOne() or updateMany().
+
+
+4. Q: How to delete documents?
+A: deleteOne() or deleteMany().
+
+
+5. Q: What is the purpose of save() method?
+A: It inserts a new document or updates an existing one.
+
+
+6. Q: What are logical operators in MongoDB?
+A: $and, $or, $not, $nor.
+
+
+7. Q: What is the difference between find() and findOne()?
+A: find() returns multiple documents; findOne() returns only one.
+
+
+8. Q: What is a collection in MongoDB?
+A: It’s equivalent to a table in SQL.
+
+
+9. Q: What is a document in MongoDB?
+A: A record in JSON/BSON format.
+
+
+10. Q: Is MongoDB schema-less?
+A: Yes, MongoDB is schema-less and flexible.
+
+
+
+
+---
+
+🧩 Problem Statement 4: PL/SQL – Control Structures & Exception Handling
+
+Viva Questions & Answers
+
+1. Q: What is PL/SQL?
+A: It is Oracle’s procedural extension of SQL.
+
+
+2. Q: What is an exception in PL/SQL?
+A: It’s an error condition handled using EXCEPTION blocks.
+
+
+3. Q: What are the types of exceptions?
+A: Predefined and user-defined exceptions.
+
+
+4. Q: What is the use of WHEN OTHERS?
+A: It catches all unhandled exceptions.
+
+
+5. Q: What are control structures in PL/SQL?
+A: IF-THEN-ELSE, LOOP, FOR, WHILE structures.
+
+
+6. Q: How do you declare a variable?
+A: variable_name datatype;
+
+
+7. Q: What happens if an exception is not handled?
+A: The program terminates abnormally.
+
+
+8. Q: What is the purpose of RAISE statement?
+A: To explicitly raise a user-defined exception.
+
+
+9. Q: How can you update a record in PL/SQL?
+A: Using an UPDATE statement inside a block.
+
+
+10. Q: What does the COMMIT statement do?
+A: It permanently saves the changes in the database.
+
+
+
+
+---
+
+🧩 Problem Statement 5: MongoDB Aggregation and Indexing
+
+Viva Questions & Answers
+
+1. Q: What is aggregation in MongoDB?
+A: It processes data records and returns computed results (like SQL GROUP BY).
+
+
+2. Q: Which method is used for aggregation?
+A: aggregate().
+
+
+3. Q: What is an index in MongoDB?
+A: It improves query performance by storing references to data.
+
+
+4. Q: How to create an index?
+A: db.collection.createIndex({ field: 1 }).
+
+
+5. Q: What does { field: 1 } mean?
+A: It creates an ascending index on that field.
+
+
+6. Q: Can we create multiple indexes?
+A: Yes, but it may slow down insert operations.
+
+
+7. Q: What is $match in aggregation?
+A: It filters documents like the WHERE clause in SQL.
+
+
+8. Q: What is $group used for?
+A: To group documents by a specified key and perform aggregations.
+
+
+9. Q: What is $sort used for?
+A: To sort documents in ascending or descending order.
+
+
+10. Q: Why is indexing important?
+A: To improve query efficiency and reduce scan time.
+
+
+
+
+---
+
+🧩 Problem Statement 6: PL/SQL Cursor (Parameterized Cursor)
+
+Viva Questions & Answers
+
+1. Q: What is a cursor in PL/SQL?
+A: A pointer that holds the result of a query.
+
+
+2. Q: What are the types of cursors?
+A: Implicit and explicit.
+
+
+3. Q: What is an implicit cursor?
+A: Automatically created by Oracle for DML statements.
+
+
+4. Q: What is an explicit cursor?
+A: Defined by the user for custom queries.
+
+
+5. Q: What is a parameterized cursor?
+A: A cursor that accepts parameters to filter data dynamically.
+
+
+6. Q: What are the cursor attributes?
+A: %FOUND, %NOTFOUND, %ROWCOUNT, %ISOPEN.
+
+
+7. Q: What is the purpose of cursor FOR loop?
+A: To automatically open, fetch, and close a cursor.
+
+
+8. Q: Can cursors be nested?
+A: Yes, a cursor can be used inside another cursor.
+
+
+9. Q: How do you close a cursor?
+A: Using CLOSE cursor_name;.
+
+
+10. Q: What happens if a cursor is not closed?
+A: It may cause memory leaks or resource locks.
+
+
+
+
+🧩 Problem Statement 1 – Banking Database (Tables, Constraints, Queries)
+
+🔹 Viva Questions & Answers:
+
+1. Q: What is the purpose of a primary key?
+A: It uniquely identifies each record in a table.
+
+
+2. Q: What is a foreign key?
+A: It links two tables by referencing the primary key of another table.
+
+
+3. Q: What is the use of CHECK constraint?
+A: To ensure that column values meet specific conditions.
+
+
+4. Q: What type of join is used to combine data from customer and loan tables?
+A: INNER JOIN.
+
+
+5. Q: What does DISTINCT keyword do?
+A: Removes duplicate values from the result.
+
+
+6. Q: How to find average balance in SQL?
+A: Using AVG() function.
+
+
+7. Q: What does GROUP BY do?
+A: Groups rows having the same value in specified columns.
+
+
+8. Q: How can we sort customer names alphabetically?
+A: Using ORDER BY cust_name ASC.
+
+
+9. Q: What is the difference between WHERE and HAVING clause?
+A: WHERE filters rows before grouping; HAVING filters after grouping.
+
+
+10. Q: What is referential integrity?
+A: It ensures foreign key values match existing primary key values.
+
+
+
+
+---
+
+🧩 Problem Statement 2 – PL/SQL Stored Procedure (Student Grades)
+
+🔹 Viva Questions & Answers:
+
+1. Q: What is a stored procedure?
+A: A precompiled block of SQL statements stored in the database.
+
+
+2. Q: What are parameters in a procedure?
+A: Variables used to pass data into or out of the procedure.
+
+
+3. Q: What is the difference between IN and OUT parameters?
+A: IN passes data to the procedure; OUT returns data from it.
+
+
+4. Q: What is the advantage of using stored procedures?
+A: Better performance and reusability.
+
+
+5. Q: What is the use of IF–THEN–ELSE in PL/SQL?
+A: To implement conditional logic.
+
+
+6. Q: What does COMMIT do?
+A: Permanently saves changes made by a transaction.
+
+
+7. Q: What is the difference between PROCEDURE and FUNCTION?
+A: Function returns a value; procedure does not.
+
+
+8. Q: What is the syntax to call a procedure?
+A: EXEC proc_name(parameter);
+
+
+9. Q: What is a trigger?
+A: A block that executes automatically when a certain event occurs.
+
+
+10. Q: Can a procedure call another procedure?
+A: Yes, nested procedure calls are allowed.
+
+
+
+
+---
+
+🧩 Problem Statement 3 – PL/SQL Parameterized Cursor
+
+🔹 Viva Questions & Answers:
+
+1. Q: What is a cursor?
+A: A pointer that holds the result of a SQL query.
+
+
+2. Q: What is a parameterized cursor?
+A: A cursor that accepts parameters to fetch specific data dynamically.
+
+
+3. Q: What is %ROWCOUNT?
+A: It returns the number of rows fetched so far.
+
+
+4. Q: How do you open and close a cursor?
+A: OPEN cursor_name; CLOSE cursor_name;
+
+
+5. Q: What is an implicit cursor?
+A: Automatically created by Oracle for simple SQL statements.
+
+
+6. Q: What is a cursor FOR loop?
+A: It automatically opens, fetches, and closes the cursor.
+
+
+7. Q: Why do we use cursors?
+A: To process each row of a query individually.
+
+
+8. Q: What happens if we don’t close a cursor?
+A: It may cause memory leaks or errors.
+
+
+9. Q: What does the parameter in a cursor do?
+A: Filters or customizes query data.
+
+
+10. Q: What is cursor attribute %FOUND?
+A: TRUE if the last FETCH returned a row.
+
+
+
+
+---
+
+🧩 Problem Statement 4 – MongoDB CRUD Operations
+
+🔹 Viva Questions & Answers:
+
+1. Q: What does CRUD stand for?
+A: Create, Read, Update, Delete.
+
+
+2. Q: How to insert data in MongoDB?
+A: db.collection.insertOne() or insertMany().
+
+
+3. Q: How to retrieve data?
+A: Using find() or findOne().
+
+
+4. Q: How to update data?
+A: Using updateOne() or updateMany().
+
+
+5. Q: How to delete documents?
+A: deleteOne() or deleteMany().
+
+
+6. Q: What is the purpose of $or operator?
+A: To filter documents matching at least one condition.
+
+
+7. Q: What is the $set operator used for?
+A: To modify existing fields in documents.
+
+
+8. Q: What is a collection?
+A: Equivalent to a table in SQL.
+
+
+9. Q: What is a document?
+A: A JSON-like record in MongoDB.
+
+
+10. Q: How do you display results neatly?
+A: Using pretty() method.
+
+
+
+
+---
+
+🧩 Problem Statement 5 – MongoDB Aggregation & Indexing
+
+🔹 Viva Questions & Answers:
+
+1. Q: What is aggregation in MongoDB?
+A: It performs computations like SQL GROUP BY.
+
+
+2. Q: Which method is used for aggregation?
+A: aggregate().
+
+
+3. Q: What is $group used for?
+A: To group documents by a specified field.
+
+
+4. Q: What is $avg operator?
+A: Calculates the average value of numeric fields.
+
+
+5. Q: How do you sort data?
+A: Using $sort stage in aggregation.
+
+
+6. Q: How to count books per genre?
+A: Using $group with $sum:1.
+
+
+7. Q: What is indexing?
+A: A method to improve query performance.
+
+
+8. Q: How to create an index?
+A: db.collection.createIndex({title:1})
+
+
+9. Q: What is the purpose of $max?
+A: To find the highest value in a group.
+
+
+10. Q: Why is indexing important?
+A: It makes searches faster.
+
+
+
+
+---
+
+🧩 Problem Statement 6 – MongoDB MapReduce
+
+🔹 Viva Questions & Answers:
+
+1. Q: What is MapReduce?
+A: A data processing model to summarize and analyze large datasets.
+
+
+2. Q: What are the two main functions in MapReduce?
+A: Map and Reduce.
+
+
+3. Q: What does the Map function do?
+A: Processes input and emits key-value pairs.
+
+
+4. Q: What does the Reduce function do?
+A: Aggregates values for each key.
+
+
+5. Q: What is the syntax for MapReduce in MongoDB?
+A: db.collection.mapReduce(mapFunction, reduceFunction, {out: "result"})
+
+
+6. Q: What kind of results can MapReduce generate?
+A: Summaries, counts, and totals.
+
+
+7. Q: Is MapReduce faster than aggregation?
+A: Usually slower but more flexible.
+
+
+8. Q: What data type does MapReduce return?
+A: Key-value pairs in a collection.
+
+
+9. Q: What is emit() used for?
+A: To output key-value pairs in the Map phase.
+
+
+10. Q: What is the output collection?
+A: The new collection that stores reduced results.
+
+
+
+
+---
+
+🧩 Problem Statement 7 – PL/SQL Control Structures & Exception Handling (Library Fine)
+
+🔹 Viva Questions & Answers:
+
+1. Q: What is an exception?
+A: An error or abnormal condition in PL/SQL.
+
+
+2. Q: What are the types of exceptions?
+A: Predefined and user-defined.
+
+
+3. Q: What is a named exception?
+A: A user-defined exception declared explicitly.
+
+
+4. Q: What is the use of WHEN OTHERS?
+A: To catch all unhandled exceptions.
+
+
+5. Q: What does IF–THEN–ELSE do?
+A: It allows conditional execution of statements.
+
+
+6. Q: How do you handle exceptions?
+A: Using the EXCEPTION block.
+
+
+7. Q: What is the purpose of DBMS_OUTPUT.PUT_LINE?
+A: To display output in PL/SQL.
+
+
+8. Q: What function calculates date difference?
+A: SYSDATE - Date_of_Issue.
+
+
+9. Q: What happens when a fine condition is met?
+A: Fine details are inserted into the Fine table.
+
+
+10. Q: How is book status updated?
+A: Using an UPDATE statement to change ‘I’ to ‘R’.
+
+
+
+
+---
+
+🧩 Problem Statement 8 – Student Database (Views, Sequences, Index)
+
+🔹 Viva Questions & Answers:
+
+1. Q: What is a view in SQL?
+A: A virtual table created using a SELECT query.
+
+
+2. Q: What is the purpose of a sequence?
+A: To generate unique numeric values automatically.
+
+
+3. Q: How do you create a sequence?
+A: CREATE SEQUENCE seq_name START WITH 1 INCREMENT BY 1;
+
+
+4. Q: What is an index in SQL?
+A: A data structure to speed up searches.
+
+
+5. Q: How to create an index?
+A: CREATE INDEX idx_name ON table(column);
+
+
+6. Q: Can we update data in a view?
+A: Yes, if it is based on a single table without GROUP BY.
+
+
+7. Q: What is the advantage of using views?
+A: Data security and simplified queries.
+
+
+8. Q: What is a composite index?
+A: An index on multiple columns.
+
+
+9. Q: What is normalization?
+A: Organizing data to reduce redundancy.
+
+
+10. Q: What is the benefit of using constraints in this database?
+A: To maintain data accuracy and consistency.
+
+
+
